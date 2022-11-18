@@ -1,19 +1,19 @@
 {
-  "name": "brainflix-api",
-  "version": "1.0.0",
-  "description": "API that contains data for brainflix project",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon ./index.js"
-  },
-  "author": "Abhishek Bhagat",
-  "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "nodemon": "^2.0.20",
-    "uuid": "^9.0.0"
-  }
+	"name": "brainflix-api",
+	"version": "1.0.0",
+	"description": "API that contains data for brainflix project",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon ./index.js"
+	},
+	"author": "Abhishek Bhagat",
+	"license": "ISC",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"nodemon": "^2.0.20",
+		"uuid": "^9.0.0"
+	}
 }
