@@ -12,7 +12,7 @@ const getVideos = () => {
 
 router
 	.route(`/`)
-	.get((req, res) => {
+	.get((_req, res) => {
 		const videos = getVideos();
 		res.json(videos);
 	})
@@ -25,7 +25,7 @@ router
 				title: req.body.title,
 				description: req.body.description,
 				channel: "drunk Commando",
-				image: `https://picsum.photos/200/300`,
+				image: `http://localhost:8080/images/Upload-video.jpg`,
 				views: "1,001,023",
 				likes: "110,985",
 				video: "https://project-2-api.herokuapp.com/stream",
@@ -46,6 +46,31 @@ router.route(`/:id`).get((req, res) => {
 	});
 
 	video ? res.json(video) : res.status(404).send(`Video not found`);
+});
+
+//posting comments
+router.route(`/:id/comments`).post((req, res) => {
+	const videos = getVideos();
+	const video = videos.find((video) => {
+		return video.id === req.params.id;
+	});
+	if (req.body.comment && req.body.name) {
+		// console.log(video.comments);
+
+		video.comments.push({
+			id: uuid(),
+			name: req.body.name,
+			comment: req.body.comment,
+			likes: 24,
+			timestamp: Date.now(),
+		});
+		console.log(video.comments);
+
+		fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
+		res.send(`Comment posted successfully`);
+	} else {
+		res.send(`Fields cann't be empty`);
+	}
 });
 
 module.exports = router;

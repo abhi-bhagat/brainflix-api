@@ -15,6 +15,6 @@ app.use(`/videos`, videoRoutes);
 // 	console.log(__dirname);
 // });
 
-app.use(express.static(__dirname +"/public"));
+app.use(express.static("public"));
 //Listen
 app.listen(PORT, console.log(`listening on port ${PORT}`));
