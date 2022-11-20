@@ -64,13 +64,28 @@ router.route(`/:id/comments`).post((req, res) => {
 			likes: 24,
 			timestamp: Date.now(),
 		});
-		console.log(video.comments);
 
 		fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
 		res.send(`Comment posted successfully`);
 	} else {
 		res.send(`Fields cann't be empty`);
 	}
+});
+
+//deleting comment
+router.route(`/:id/comments/:cId`).delete((req, res) => {
+	const videos = getVideos();
+	// find the video with that id and then find comment with that id and then delete it
+
+	const video = videos.find((video) => video.id === req.params.id);
+	const comments = video.comments;
+	const comment = comments.findIndex(
+		(comment) => comment.id === req.params.cId
+	);
+
+	comments.splice(comment, 1);
+	fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
+	res.send(`Comment deleted successfully`);
 });
 
 module.exports = router;
