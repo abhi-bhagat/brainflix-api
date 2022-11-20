@@ -1,7 +1,6 @@
 const fs = require("fs");
 const express = require("express");
 const { v4: uuid } = require("uuid");
-
 const router = express.Router();
 
 const getVideos = () => {
@@ -9,6 +8,8 @@ const getVideos = () => {
 	const videos = JSON.parse(data);
 	return videos;
 };
+
+const likesTypeConvertor = () => {};
 
 router
 	.route(`/`)
@@ -48,44 +49,24 @@ router.route(`/:id`).get((req, res) => {
 	video ? res.json(video) : res.status(404).send(`Video not found`);
 });
 
-//posting comments
-router.route(`/:id/comments`).post((req, res) => {
+router.route(`/:id/likes`).put((req, res) => {
 	const videos = getVideos();
 	const video = videos.find((video) => {
 		return video.id === req.params.id;
 	});
-	if (req.body.comment && req.body.name) {
-		// console.log(video.comments);
-
-		video.comments.push({
-			id: uuid(),
-			name: req.body.name,
-			comment: req.body.comment,
-			likes: 24,
-			timestamp: Date.now(),
-		});
-
-		fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
-		res.send(`Comment posted successfully`);
+	let likes;
+	console.log(typeof video.likes);
+	if (typeof video.likes == "string") {
+		likes = parseInt(video.likes.replace(/,/g, ""));
 	} else {
-		res.send(`Fields cann't be empty`);
+		likes = video.likes;
 	}
-});
-
-//deleting comment
-router.route(`/:id/comments/:cId`).delete((req, res) => {
-	const videos = getVideos();
-	// find the video with that id and then find comment with that id and then delete it
-
-	const video = videos.find((video) => video.id === req.params.id);
-	const comments = video.comments;
-	const comment = comments.findIndex(
-		(comment) => comment.id === req.params.cId
-	);
-
-	comments.splice(comment, 1);
+	likes += 1;
+	const newLikes = likes.toLocaleString();
+	console.log(newLikes);
+	video.likes = newLikes;
 	fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
-	res.send(`Comment deleted successfully`);
+	res.send("Video Liked");
 });
 
 module.exports = router;

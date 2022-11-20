@@ -4,16 +4,13 @@ const PORT = process.env.PORT || 8080;
 const cors = require("cors");
 const { v4: uuid } = require("uuid");
 const videoRoutes = require(`./routes/videos`);
+const commentRoutes = require("./routes/comments");
 
 //Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(`/videos`, videoRoutes);
-//get home
-// app.get("/", (req, res) => {
-// 	res.send("hello");
-// 	console.log(__dirname);
-// });
+app.use(`/videos`, commentRoutes);
 
 app.use(express.static("public"));
 //Listen
